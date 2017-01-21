@@ -1,4 +1,4 @@
-(function ($) {
+(function ($, M) {
     var socket = io(), $ol = $("#messages");
     socket.on("connect", function () {
         console.log("connected to server");
@@ -8,18 +8,23 @@
     });
     socket.on("newMessage", function (message) {
         var formattedTime = moment(message.createdAt).format("h:mm a");
-        var $li = $("<li></li>").text(`${message.from} ${formattedTime}: ${message.text}`);
-        $li.appendTo($ol);
+        var template = $("#message_template").html();
+        var html = M.render(template, {
+            text: message.text,
+            from: message.from,
+            createdAt: formattedTime
+        });
+        $ol.append(html);
     });
     socket.on("newLocationMessage", function (message) {
         var formattedTime = moment(message.createdAt).format("h:mm a");
-        var $li = $("<li></li>").text(`${message.from}  ${formattedTime}: `),
-            $a = $("<a></a>").text("My Current Location").attr({
-                target: "_blank",
-                href: message.url
-            });
-        $li.append($a);
-        $li.appendTo($ol);
+        var template = $("#location_message_template").html();
+        var html = M.render(template, {
+            url: message.url,
+            from: message.from,
+            createdAt: formattedTime
+        });
+        $ol.append(html);
     });
 
     var $form = $("#message_form").on("submit", function (e) {
@@ -48,4 +53,4 @@
             locationBtn.prop("disabled", false).text("Send location");
         })
     });
-})(jQuery);
+})(jQuery, Mustache);
