@@ -7,11 +7,13 @@
         console.log("disconnected from server");
     });
     socket.on("newMessage", function (message) {
-        var $li = $("<li></li>").text(`${message.from}: ${message.text}`);
+        var formattedTime = moment(message.createdAt).format("h:mm a");
+        var $li = $("<li></li>").text(`${message.from} ${formattedTime}: ${message.text}`);
         $li.appendTo($ol);
     });
     socket.on("newLocationMessage", function (message) {
-        var $li = $("<li></li>").text(`${message.from}: `),
+        var formattedTime = moment(message.createdAt).format("h:mm a");
+        var $li = $("<li></li>").text(`${message.from}  ${formattedTime}: `),
             $a = $("<a></a>").text("My Current Location").attr({
                 target: "_blank",
                 href: message.url
