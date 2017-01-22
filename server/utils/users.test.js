@@ -3,7 +3,6 @@ import expect from "expect";
 import { Users } from "./users";
 
 describe("Users", () => {
-
     let users;
 
     beforeEach(() => {

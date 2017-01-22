@@ -20,12 +20,12 @@
                 alert(err);
                 window.location.href = "/";
             } else {
-                console.log("No error");
+                //console.log("No error");
             }
         });
     });
     socket.on("disconnect", function () {
-        console.log("disconnected from server");
+        //console.log("disconnected from server");
     });
     socket.on("updateUserList", function (users) {
         var $userList = $("<ol></ol>");
@@ -60,7 +60,6 @@
     var $form = $("#message_form").on("submit", function (e) {
         e.preventDefault();
         socket.emit("createMessage", {
-            from: "User",
             text: $("#id_message").val()
         }, function (data) {
             $form[0].reset();
